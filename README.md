@@ -32,6 +32,8 @@ sudo make install
 # Step 5: Check that scripts query the correct interpreter
 /usr/local/python-3.4/bin/python3
 
+Step 4a: Update .bashrc or /etc/profile.d for python-3 path if you wish to affect global settings
+export PATH=/usr/local/python-3.4/bin:$PATH
 
 # Step 6: Run setup.py from the Installation Directory of Python
 /usr/local/python-3.4/bin/python3 setup.py install
@@ -49,6 +51,7 @@ yum install npm
 yum install git
 npm install -g configurable-http-proxy
 
+
 ### Step 3a: Installation of JupyerHub
 /usr/local/python-3.4/bin/python3 -m pip install "ipython[notebook]"
 /usr/local/python-3.4/bin/python3 -m pip install jupyterhub
@@ -65,25 +68,119 @@ pip install "ipython[notebook]"
 /usr/local/python-3.4/bin/jupyterhub
 /usr/local/python-3.4/lib/python3.4/site-packages/jupyterhub
 
-git clone https://github.com/jupyter/jupyterhub.git
-cd jupyterhub
-/usr/local/python-3.4/bin/python3 -m pip install -r dev-requirements.txt -e .
-
-Step 3b: Update Javascript
-/usr/local/python-3.4/bin/python3 setup.py js
-/usr/local/python-3.4/bin/python3 setup.py css
-
-Step 4a: Update .bashrc or /etc/profile.d for python-3 path if you wish to affect global settings
-export PATH=/usr/local/python-3.4/bin:$PATH
-
-Step 4b: Launch the JupyterHub Server
-jupyterhub
-
-Step 5: Generate a default config file:
-jupyterhub --generate-config
+python3 -m jupyterhub --generate-config -f /home/abdoulraouf_gambo/jupyterhub_config.py
 
 
-/usr/local/python-3.4.1/bin/pip3 install networkx
+##### 3-2- Create and add SSL certificat, so that your password is not sent unencrypted by your browser
+```sh
+openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -nodes -days 365
+
+```
+
+##### 3-3- Create cookie secret
+```sh
+openssl rand -base64 2048 > /home/abdoulraouf_gambo/cookie_secret
+sudo chmod a-srwx /home/abdoulraouf_gambo/cookie_secret
+
+```
+
+##### 3-4- Create auth token
+```sh
+openssl rand -hex 32 > /home/abdoulraouf_gambo/proxi_auth_token
+
+```
+
+##### 3-5- Create auth token
+```sh
+sudo touch /var/log/jupyterhub.log
+
+```
+
+##### 3-6- Change Jupyter configuration
+```sh
+# Edit configuration file
+/home/abdoulraouf_gambo/jupyterhub_config.py
+
+# Add the content below in configugation file
+c = get_config()
+# IP and Port
+c.JupyterHub.ip = '10.128.0.4' # IP local
+c.JupyterHub.port = 443
+# Security - SSL
+c.JupyterHub.ssl_key = '/home/abdoulraouf_gambo/key.pem'
+c.JupyterHub.ssl_cert = '/home/abdoulraouf_gambo/cert.pem'
+# Security - cookie secret
+c.JupyterHub.cookie_secret_file ='/home/abdoulraouf_gambo/cookie_secret'
+c.JupyterHub.db_url = '/home/abdoulraouf_gambo/jupyterhub.sqlite'
+# Security - http token
+c.JupyterHub.proxy_auth_token = '/home/abdoulraouf_gambo/proxi_auth_token'
+# put the log file in /var/log
+c.JupyterHub.extra_log_file = '/var/log/jupyterhub.log'
+# specify users and admin
+c.Authenticator.whitelist = {'abdoulraouf_gambo'}
+c.Authenticator.admin_users = {'abdoulraouf_gambo'}
+
+```
+
+#### 4- Setup Spark kernel
+```sh
+# Create folder for Spark Kernel
+sudo mkdir -p /usr/local/share/jupyter/kernels/pyspark/
+
+# Create and add configuration information json file
+cat <<EOF | sudo tee /usr/local/share/jupyter/kernels/pyspark/kernel.json
+{
+ "display_name": "PySpark",
+ "language": "python",
+ "argv": [
+  "/usr/bin/python",
+  "-m",
+  "IPython.kernel",
+  "-f",
+  "{connection_file}"
+ ],
+ "env": {
+  "SPARK_HOME": "/usr/hdp/2.4.2.0-258/etc/spark/",
+  "PYTHONPATH": "/usr/hdp/2.4.2.0-258/spark/python/:/usr/hdp/2.4.2.0-258/spark/python/lib/py4j-0.9-src.zip",
+  "PYTHONSTARTUP": "/usr/hdp/2.4.2.0-258/spark/python/pyspark/shell.py",
+  "PYSPARK_SUBMIT_ARGS": "--master spark://hadoop-m:7077 --num-executors 2 --executor-memory 4G --total-executor-cores 2 pyspark-shell"
+ }
+}
+EOF
+
+```
+
+#### 5- Setup Python 2.7 kernel
+```sh
+# Create folder for Python 2 Kernel
+sudo mkdir -p /usr/local/share/jupyter/kernels/python2.7/
+
+# Create and add configuration information json file
+cat <<EOF | sudo tee /usr/local/share/jupyter/kernels/python2.7/kernel.json
+{"display_name": "Python 2", 
+"language": "python", 
+"argv": 
+  ["/home/abdoulraouf_gambo/anaconda2/bin/python", 
+  "-c", 
+  "from ipykernel.kernelapp import main; main()", 
+  "-f", 
+  "{connection_file}" ]
+}
+EOF
+
+```
+
+
+#### 7- Run Jupyter
+```sh
+# Launch Jupyter server
+sudo /usr/local/python-3.4/bin/python3 -m jupyterhub -f /home/abdoulraouf_gambo/jupyterhub_config.py
+
+# Or
+nohup sudo /usr/local/python-3.4/bin/python3 -m jupyterhub -f /home/abdoulraouf_gambo/jupyterhub_config.py &
+```
+
+__Go to https://IP or your.host.com and enjoy!__
 
 
 
