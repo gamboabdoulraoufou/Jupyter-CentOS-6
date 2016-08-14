@@ -15,17 +15,22 @@ wget http://puias.math.ias.edu/data/puias/6/x86_64/os/Packages/puias-core-6-1.pu
 
 
 # Step 2: Install Prerequisite Software
-yum install openssl-devel bzip2-devel expat-devel gdbm-devel readline-devel sqlite-devel
+sudo yum install openssl-devel 
+sudo yum install bzip2-devel 
+sudo yum install expat-devel 
+sudo yum install gdbm-devel 
+sudo yum install readline-devel 
+sudo yum install sqlite-devel
+sudo yum install gcc
 
 # step 3:  Download Python-3.4.1 from the Python Download Page
 wget https://www.python.org/ftp/python/3.4.5/Python-3.4.5.tgz
 tar -xvzf Python-3.4.5.tgz
 
 
-
 # Step 4: Configure and Build
 cd Python-3.4.5
-./configure --prefix=/usr/local/python-3.4
+sudo ./configure --prefix=/usr/local/python-3.4
 make 
 sudo make install
 
@@ -38,12 +43,12 @@ export PATH=/usr/local/python-3.4/bin:$PATH
 # Step 6: Run setup.py from the Installation Directory of Python
 /usr/local/python-3.4/bin/python3 setup.py install
 
+python3
+
 # Install pip 
 wget https://bootstrap.pypa.io/get-pip.py
-/usr/local/python-3.4/bin/python3 get-pip.py
+sudo /usr/local/python-3.4/bin/python3 get-pip.py
 
-# Step 7: Install Python Modules (whatever you need. Here is an example)
-You can use pip install to install packages using pip3. See Using pip to install python packages
 
 # Step 8: Install Nodejs and npm and Javascript Dependencies. You will need to install and enable EPEL repository
 rpm -ivh http://epel.mirror.net.in/epel/6/i386/epel-release-6-8.noarch.rpm
