@@ -106,7 +106,7 @@ sudo nano /home/abdoulraouf_gambo/jupyterhub_config.py
 c = get_config()
 # IP and Port
 c.JupyterHub.ip = '10.128.0.3' # IP local
-c.JupyterHub.port = 443
+c.JupyterHub.port = 9083
 # Security - SSL
 c.JupyterHub.ssl_key = '/home/abdoulraouf_gambo/key.pem'
 c.JupyterHub.ssl_cert = '/home/abdoulraouf_gambo/cert.pem'
@@ -184,19 +184,22 @@ EOF
 
 ```
 
+> Step 12: Run Jupyter
 
-#### 7- Run Jupyter
-export PATH=/usr/local/python-3.4/bin/jupyterhub-singleuser:$PATH
-export PATH=/usr/local/python-3.4/bin/jupyterhub:$PATH
 ```sh
 # Launch Jupyter server
 sudo /usr/local/python-3.4/bin/python3 -m jupyterhub -f /home/abdoulraouf_gambo/jupyterhub_config.py 
 
 # Or
 nohup sudo /usr/local/python-3.4/bin/python3 -m jupyterhub -f /home/abdoulraouf_gambo/jupyterhub_config.py &
+
+export PATH=/usr/local/python-3.4/bin/jupyterhub-singleuser:$PATH
+export PATH=/usr/local/python-3.4/bin/jupyterhub:$PATH
+
 ```
 
-__Go to https://IP or your.host.com and enjoy!__
+__Go to https://IP:9083 or https://your.host.com:9083 __
+__and enjoy!__
 
 
 
