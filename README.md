@@ -190,7 +190,15 @@ EOF
 
 ```
 
-> Step 12: Run Jupyter
+> Step 12: Add execution right to other user
+
+```sh
+sudo chmod +x -R /home/abdoulraouf_gambo/
+sudo chmod a-srwx /home/abdoulraouf_gambo/cookie_secret
+
+```sh
+
+> Step 13: Run Jupyter
 
 ```sh
 # Launch Jupyter server
