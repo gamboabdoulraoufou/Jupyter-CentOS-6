@@ -137,9 +137,9 @@ cat <<EOF | sudo tee /usr/local/share/jupyter/kernels/pyspark/kernel.json
  "display_name": "PySpark",
  "language": "python",
  "argv": [
-  "/usr/bin/python",
+  "/home/abdoulraouf_gambo/anaconda2/bin/python",
   "-m",
-  "IPython.kernel",
+  "ipykernel",
   "-f",
   "{connection_file}"
  ],
@@ -165,6 +165,12 @@ bash Anaconda2-4.0.0-Linux-x86_64.sh
 
 # Add Anaconda path to paht
 export PATH="/home/abdoulraouf_gambo/anaconda2/bin:$PATH"
+
+# Install pip
+sudo yum install python-pip
+
+# Install Ipython notebook
+sudo pip install "ipython[notebook]"
 
 # Create folder for Python 2 Kernel
 sudo mkdir -p /usr/local/share/jupyter/kernels/python2.7/
