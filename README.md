@@ -7,19 +7,14 @@
 wget https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda2-4.0.0-Linux-x86_64.sh
 
 # Install Anacondo
-bash -f Anaconda2-4.0.0-Linux-x86_64.sh
-
-# Use anaconda as default version
-ln -s /home/abdoulraouf_gambo/anaconda2/bin/python /usr/local/bin/python
+bash Anaconda2-4.0.0-Linux-x86_64.sh
 
 # 
-sudo rpm -ivh http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+export PATH="/home/abdoulraouf_gambo/anaconda2/bin:$PATH"
 
-# Install pip
-sudo yum install -y python-pip
+# Use anaconda as default version
+#ln -s /home/abdoulraouf_gambo/anaconda2/bin/python /usr/local/bin/python
 
-# Install Ipython notebook
-sudo pip install -y "ipython[notebook]"
 ```
 
 > Step 1: Install Prerequisite Software
@@ -32,6 +27,7 @@ sudo yum install -y gdbm-devel
 sudo yum install -y readline-devel 
 sudo yum install -y sqlite-devel
 sudo yum install -y gcc
+
 ```
 
 > step 2:  Download Python-3.4.1 from the Python Download Page
@@ -39,6 +35,7 @@ sudo yum install -y gcc
 ```sh
 wget https://www.python.org/ftp/python/3.4.5/Python-3.4.5.tgz
 tar -xvzf Python-3.4.5.tgz
+
 ```
 
 > Step 3: Configure and Build
@@ -70,22 +67,25 @@ sudo /usr/local/python-3.4/bin/python3 get-pip.py
 > Step 6: Install Nodejs and npm and Javascript Dependencies
 
 ```sh
-sudo rpm -ivh http://epel.mirror.net.in/epel/6/i386/epel-release-6-8.noarch.rpm
+# 
+sudo rpm -ivh http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
 sudo yum install -y npm
 sudo yum install -y git
 sudo npm install -g configurable-http-proxy
+
 ```
 
 > Step 7: Install JupyerHub
 
 ```sh
-sudo /usr/local/python-3.4/bin/python3 -m pip install "ipython[notebook]"
 sudo /usr/local/python-3.4/bin/python3 -m pip install jupyterhub
-sudo /usr/local/python-3.4/bin/python3 -m pip install py4j
 sudo /usr/local/python-3.4/bin/python3 -m pip install "ipython[notebook]"
-
-# Check jupyterhub folder path
-sudo find / -name "jupyterhub"
+sudo yum install -y python-dev 
+sudo yum install -y python-setuptools
+sudo yum install -y build-essential
+sudo yum install -y py4j
+sudo yum install -y python-pip
+sudo pip install "ipython[notebook]"
 
 ```
 
@@ -118,7 +118,7 @@ sudo nano /home/abdoulraouf_gambo/jupyterhub_config.py
 # Add the content below in configugation file
 c = get_config()
 # IP and Port
-c.JupyterHub.ip = '10.128.0.3' # IP local
+c.JupyterHub.ip = '10.128.0.4' # IP local
 c.JupyterHub.port = 9083
 # Security - SSL
 c.JupyterHub.ssl_key = '/home/abdoulraouf_gambo/key.pem'
@@ -151,9 +151,9 @@ cat <<EOF | sudo tee /usr/local/share/jupyter/kernels/pyspark/kernel.json
  "display_name": "PySpark",
  "language": "python",
  "argv": [
-  "/usr/bin/python",
+  "/home/abdoulraouf_gambo/anaconda2/bin/python", 
   "-m",
-  "ipykernel",
+  "IPython.kernel",
   "-f",
   "{connection_file}"
  ],
@@ -179,13 +179,14 @@ cat <<EOF | sudo tee /usr/local/share/jupyter/kernels/python2.7/kernel.json
 {"display_name": "Python 2", 
 "language": "python", 
 "argv": 
-  ["/usr/bin/python", 
+  ["/usr/local/bin/python", 
   "-c", 
   "from ipykernel.kernelapp import main; main()", 
   "-f", 
   "{connection_file}" ]
 }
 EOF
+
 
 ```
 
@@ -194,13 +195,15 @@ EOF
 ```sh
 # Launch Jupyter server
 sudo /usr/local/python-3.4/bin/python3 -m jupyterhub -f /home/abdoulraouf_gambo/jupyterhub_config.py 
+sudo python3 -m jupyterhub -f /home/abdoulraouf_gambo/jupyterhub_config.py 
 
 # Or
 nohup sudo /usr/local/python-3.4/bin/python3 -m jupyterhub -f /home/abdoulraouf_gambo/jupyterhub_config.py &
 
-export PATH=/usr/local/python-3.4/bin/jupyterhub-singleuser:$PATH
-export PATH=/usr/local/python-3.4/bin/jupyterhub:$PATH
-
+export PATH="/usr/local/python-3.4/bin/jupyterhub-singleuser:$PATH"
+export PATH="/usr/local/python-3.4/bin/jupyterhub:$PATH"
+export PATH="/home/abdoulraouf_gambo/anaconda2/bin:$PATH"
+export PATH="/usr/local/python-3.4/bin/:$PATH"
 ```
 
 __Go to https://IP:9083 or https://your.host.com:9083__  
@@ -208,7 +211,7 @@ __Go to https://IP:9083 or https://your.host.com:9083__
 __and enjoy!__
 
 
-
+sudo chmod 755 -R /usr/local/python-3.4/
 
 
 
