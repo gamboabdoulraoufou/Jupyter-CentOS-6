@@ -204,7 +204,7 @@ export PATH=/usr/local/python-3.4/bin/jupyterhub:$PATH
 
 ```
 
-__Go to https://IP:9083 or https://your.host.com:9083 __
+__Go to https://IP:9083 or https://your.host.com:9083 __  
 __and enjoy!__
 
 
