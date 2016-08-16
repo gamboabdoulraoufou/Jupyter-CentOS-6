@@ -1,9 +1,32 @@
 # Jupyter-CentOS-6
 
+> Step 0: Install Python 2.7 (Anaconda distribution) 
+
+```sh
+# Download Anaconda
+wget https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda2-4.0.0-Linux-x86_64.sh
+
+# Install Anacondo
+bash Anaconda2-4.0.0-Linux-x86_64.sh
+
+# Add Anaconda path to path
+export PATH="/home/abdoulraouf_gambo/anaconda2/bin:$PATH"
+
+ln -s /home/abdoulraouf_gambo/anaconda2/bin/python /usr/local/bin/python 
+# 
+sudo rpm -ivh http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+
+# Install pip
+sudo yum install -y python-pip
+
+# Install Ipython notebook
+sudo pip install -y "ipython[notebook]"
+```
+
 > Step 1: Install Prerequisite Software
 
 ```sh
-sudo yum install openssl-devel 
+sudo yum install -y openssl-devel 
 sudo yum install -y bzip2-devel 
 sudo yum install -y expat-devel 
 sudo yum install -y gdbm-devel 
@@ -26,6 +49,7 @@ cd Python-3.4.5
 sudo ./configure --prefix=/usr/local/python-3.4
 make 
 sudo make install
+
 ```
 
 > Step 4: Check python 3 installation
@@ -33,11 +57,6 @@ sudo make install
 ```sh
 # Go to python console
 /usr/local/python-3.4/bin/python3
-# Ctrl+D to exit python
-# Add python 3 in path
-export PATH=/usr/local/python-3.4/bin:$PATH
-# Go to python 3 console
-python3
 # Ctrl+D to exit python
 ```
 
@@ -53,8 +72,8 @@ sudo /usr/local/python-3.4/bin/python3 get-pip.py
 
 ```sh
 sudo rpm -ivh http://epel.mirror.net.in/epel/6/i386/epel-release-6-8.noarch.rpm
-sudo yum install npm
-sudo yum install git
+sudo yum install -y npm
+sudo yum install -y git
 sudo npm install -g configurable-http-proxy
 ```
 
@@ -63,11 +82,6 @@ sudo npm install -g configurable-http-proxy
 ```sh
 sudo /usr/local/python-3.4/bin/python3 -m pip install "ipython[notebook]"
 sudo /usr/local/python-3.4/bin/python3 -m pip install jupyterhub
-sudo yum -y install python-dev # no need
-sudo yum -y install python-setuptools  # no need
-sudo yum install python-pip   # no need
-sudo yum install python-dev  # no need
-sudo yum install build-essential  # no need
 sudo /usr/local/python-3.4/bin/python3 -m pip install py4j
 sudo /usr/local/python-3.4/bin/python3 -m pip install "ipython[notebook]"
 
@@ -121,7 +135,8 @@ c.JupyterHub.extra_log_file = '/var/log/jupyterhub.log'
 c.Authenticator.whitelist = {'abdoulraouf_gambo', 'abdoul', 'test'}
 c.Authenticator.admin_users = {'abdoulraouf_gambo', 'abdoul'}
 # Tell jupyter to use absolue path
-c.Spawner.cmd = '/usr/local/python-3.4/bin/jupyterhub-singleuser'
+#c.Spawner.cmd = '/usr/local/python-3.4/bin/jupyterhub-singleuser'
+c.Spawner.cmd = '/usr/local/python-3.4/bin/jupyterhub'
 
 ```
 
@@ -137,7 +152,7 @@ cat <<EOF | sudo tee /usr/local/share/jupyter/kernels/pyspark/kernel.json
  "display_name": "PySpark",
  "language": "python",
  "argv": [
-  "/home/abdoulraouf_gambo/anaconda2/bin/python",
+  "/usr/bin/python",
   "-m",
   "ipykernel",
   "-f",
@@ -154,24 +169,9 @@ EOF
 
 ```
 
-> Step 11: Install Python 2.7 (Anaconda distribution) and setup kernel
+> Step 11: Setup Python 2 kernel
 
 ```sh
-# Download Anaconda
-wget https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda2-4.0.0-Linux-x86_64.sh
-
-# Install Anacondo
-bash Anaconda2-4.0.0-Linux-x86_64.sh
-
-# Add Anaconda path to paht
-export PATH="/home/abdoulraouf_gambo/anaconda2/bin:$PATH"
-
-# Install pip
-sudo yum install python-pip
-
-# Install Ipython notebook
-sudo pip install "ipython[notebook]"
-
 # Create folder for Python 2 Kernel
 sudo mkdir -p /usr/local/share/jupyter/kernels/python2.7/
 
@@ -180,7 +180,7 @@ cat <<EOF | sudo tee /usr/local/share/jupyter/kernels/python2.7/kernel.json
 {"display_name": "Python 2", 
 "language": "python", 
 "argv": 
-  ["/home/abdoulraouf_gambo/anaconda2/bin/python", 
+  ["/usr/bin/python", 
   "-c", 
   "from ipykernel.kernelapp import main; main()", 
   "-f", 
