@@ -151,20 +151,21 @@ cat <<EOF | sudo tee /usr/local/share/jupyter/kernels/pyspark/kernel.json
  "display_name": "PySpark",
  "language": "python",
  "argv": [
-  "/home/abdoulraouf_gambo/anaconda2/bin/python", 
+  "/home/abdoulraouf_gambo/anaconda2/bin/python",
   "-m",
-  "IPython.kernel",
+  "ipykernel.kernelapp",
   "-f",
   "{connection_file}"
  ],
  "env": {
-  "SPARK_HOME": "/usr/hdp/2.4.2.0-258/etc/spark/",
+  "SPARK_HOME": "/usr/hdp/2.4.2.0-258/spark/",
   "PYTHONPATH": "/usr/hdp/2.4.2.0-258/spark/python/:/usr/hdp/2.4.2.0-258/spark/python/lib/py4j-0.9-src.zip",
   "PYTHONSTARTUP": "/usr/hdp/2.4.2.0-258/spark/python/pyspark/shell.py",
-  "PYSPARK_SUBMIT_ARGS": "--master spark://hadoop-m:7077 --num-executors 2 --executor-memory 4G --total-executor-cores 2 pyspark-shell"
+  "PYSPARK_SUBMIT_ARGS": "--num-executors 2 --executor-memory 4G --total-executor-cores 2 pyspark-shell"
  }
 }
 EOF
+
 
 ```
 
@@ -176,17 +177,16 @@ sudo mkdir -p /usr/local/share/jupyter/kernels/python2.7/
 
 # Create and add configuration information json file
 cat <<EOF | sudo tee /usr/local/share/jupyter/kernels/python2.7/kernel.json
-{"display_name": "Python 2", 
-"language": "python", 
-"argv": 
-  ["/usr/local/bin/python", 
-  "-c", 
-  "from ipykernel.kernelapp import main; main()", 
-  "-f", 
+{"display_name": "Python 2",
+"language": "python",
+"argv":
+  ["/home/abdoulraouf_gambo/anaconda2/bin/python",
+  "-c",
+  "from ipykernel.kernelapp import main; main()",
+  "-f",
   "{connection_file}" ]
 }
 EOF
-
 
 ```
 
@@ -195,15 +195,10 @@ EOF
 ```sh
 # Launch Jupyter server
 sudo /usr/local/python-3.4/bin/python3 -m jupyterhub -f /home/abdoulraouf_gambo/jupyterhub_config.py 
-sudo python3 -m jupyterhub -f /home/abdoulraouf_gambo/jupyterhub_config.py 
 
 # Or
 nohup sudo /usr/local/python-3.4/bin/python3 -m jupyterhub -f /home/abdoulraouf_gambo/jupyterhub_config.py &
 
-export PATH="/usr/local/python-3.4/bin/jupyterhub-singleuser:$PATH"
-export PATH="/usr/local/python-3.4/bin/jupyterhub:$PATH"
-export PATH="/home/abdoulraouf_gambo/anaconda2/bin:$PATH"
-export PATH="/usr/local/python-3.4/bin/:$PATH"
 ```
 
 __Go to https://IP:9083 or https://your.host.com:9083__  
