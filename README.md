@@ -1,4 +1,4 @@
-# Jupyter-CentOS-6
+### Install and configure JupyterHub on CentOS 6
 
 > Step 0: Install Python 2.7 (Anaconda distribution) 
 
