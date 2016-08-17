@@ -134,8 +134,7 @@ c.JupyterHub.extra_log_file = '/var/log/jupyterhub.log'
 c.Authenticator.whitelist = {'abdoulraouf_gambo', 'abdoul', 'test'}
 c.Authenticator.admin_users = {'abdoulraouf_gambo', 'abdoul'}
 # Tell jupyter to use absolue path
-#c.Spawner.cmd = '/usr/local/python-3.4/bin/jupyterhub-singleuser'
-c.Spawner.cmd = '/usr/local/python-3.4/bin/jupyterhub'
+c.Spawner.cmd = '/usr/local/python-3.4/bin/jupyterhub-singleuser'
 
 ```
 
@@ -196,7 +195,7 @@ EOF
 sudo chmod +x -R /home/abdoulraouf_gambo/
 sudo chmod a-srwx /home/abdoulraouf_gambo/cookie_secret
 
-```sh
+```
 
 > Step 13: Run Jupyter
 
@@ -212,10 +211,3 @@ nohup sudo /usr/local/python-3.4/bin/python3 -m jupyterhub -f /home/abdoulraouf_
 __Go to https://IP:9083 or https://your.host.com:9083__  
 
 __and enjoy!__
-
-
-sudo chmod 755 -R /usr/local/python-3.4/
-
-
-
-
