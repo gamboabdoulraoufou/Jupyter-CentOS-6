@@ -207,4 +207,4 @@ nohup sudo /usr/local/python-3.4/bin/python3 -m jupyterhub -f /home/abdoulraouf_
 
 __Go to https://IP:9083 or https://your.host.com:9083__  
 
-__and enjoy!__
+__Enjoy!__
