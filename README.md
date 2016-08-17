@@ -89,7 +89,7 @@ sudo pip install "ipython[notebook]"
 > Step 8: Create jupyter configuration file
 
 ```sh
-sudo /usr/local/python-3.4/bin/python3 -m jupyterhub --generate-config -f /home/abdoulraouf_gambo/jupyterhub_config.py
+/usr/local/python-3.4/bin/python3 -m jupyterhub --generate-config -f /home/abdoulraouf_gambo/jupyterhub_config.py
 ```
 
 > Step 9: Configure jupyter
@@ -105,14 +105,14 @@ sudo chmod a-srwx /home/abdoulraouf_gambo/cookie_secret
 # 3- Create auth token
 openssl rand -hex 32 > /home/abdoulraouf_gambo/proxi_auth_token
 
-# 3-5- Create auth token
+# 4- Create auth token
 sudo touch /var/log/jupyterhub.log
 
-# 3-6- Change Jupyter configuration
-# Edit configuration file
+# 5- Change Jupyter configuration
+# 5-1- Edit configuration file
 sudo nano /home/abdoulraouf_gambo/jupyterhub_config.py
 
-# Add the content below in configugation file
+# 5-2- Add the content below in configugation file
 c = get_config()
 # IP and Port
 c.JupyterHub.ip = '10.128.0.4' # IP local
