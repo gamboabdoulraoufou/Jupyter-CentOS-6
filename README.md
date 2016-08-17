@@ -9,11 +9,8 @@ wget https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackc
 # Install Anacondo
 bash Anaconda2-4.0.0-Linux-x86_64.sh
 
-# 
+# Add anaconda folder to path
 export PATH="/home/abdoulraouf_gambo/anaconda2/bin:$PATH"
-
-# Use anaconda as default version
-#ln -s /home/abdoulraouf_gambo/anaconda2/bin/python /usr/local/bin/python
 
 ```
 
