@@ -27,7 +27,7 @@ sudo yum install -y gcc
 
 ```
 
-> step 2:  Download Python-3.4.1 from the Python Download Page
+> step 2:  Download Python 3 from the Python Download Page
 
 ```sh
 wget https://www.python.org/ftp/python/3.4.5/Python-3.4.5.tgz
