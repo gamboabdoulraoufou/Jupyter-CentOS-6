@@ -11,7 +11,6 @@ bash Anaconda2-4.0.0-Linux-x86_64.sh
 
 # Add anaconda folder to path
 export PATH="/home/abdoulraouf_gambo/anaconda2/bin:$PATH"
-export PYSPARK_DRIVER_PYTHON=ipython2
 
 ```
 
