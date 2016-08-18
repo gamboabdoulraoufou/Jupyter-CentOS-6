@@ -11,6 +11,7 @@ bash Anaconda2-4.0.0-Linux-x86_64.sh
 
 # Add anaconda folder to path
 export PATH="/home/abdoulraouf_gambo/anaconda2/bin:$PATH"
+export PYSPARK_DRIVER_PYTHON=ipython2
 
 ```
 
@@ -157,7 +158,9 @@ cat <<EOF | sudo tee /usr/local/share/jupyter/kernels/pyspark/kernel.json
   "SPARK_HOME": "/usr/hdp/2.4.2.0-258/spark/",
   "PYTHONPATH": "/usr/hdp/2.4.2.0-258/spark/python/:/usr/hdp/2.4.2.0-258/spark/python/lib/py4j-0.9-src.zip",
   "PYTHONSTARTUP": "/usr/hdp/2.4.2.0-258/spark/python/pyspark/shell.py",
-  "PYSPARK_SUBMIT_ARGS": "--num-executors 2 --executor-memory 4G --total-executor-cores 2 pyspark-shell"
+  "PYSPARK_SUBMIT_ARGS": "--num-executors 2 --executor-memory 4G --total-executor-cores 2 pyspark-shell",
+  "PYSPARK_DRIVER_PYTHON":"/home/abdoulraouf_gambo/anaconda2/bin/python",
+  "PYSPARK_PYTHON": "/home/abdoulraouf_gambo/anaconda2/bin/python"
  }
 }
 EOF
