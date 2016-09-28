@@ -207,6 +207,30 @@ nohup sudo /usr/local/python-3.4/bin/python3 -m jupyterhub -f /home/abdoulraouf_
 
 ```
 
+> Step 14: Start all Ambari service on start up
+
+```sh
+export VISUAL=nano
+crontab -e 
+```
+> Add the following code
+```sh
+# Run Jupyter on start up
+@reboot nohup sudo /usr/local/python-3.4/bin/python3 -m jupyterhub -f /home/agambo/jupyterhub_config.py &
+
+# Run some ambari service on start up
+@rebootcurl -u admin:admin -i -H 'X-Requested-By: ambari' -X PUT -d '{"RequestInfo": {"context" :"Start HDFS via REST"}, "Body": {"ServiceInfo": {"state": "STARTED"}}}' http://localhost:8080/api/v1/clusters/hadoop/services/HDFS 
+@rebootcurl -u admin:admin -i -H 'X-Requested-By: ambari' -X PUT -d '{"RequestInfo": {"context" :"Start YARN via REST"}, "Body": {"ServiceInfo": {"state": "STARTED"}}}' http://localhost:8080/api/v1/clusters/hadoop/services/YARN
+@rebootcurl -u admin:admin -i -H 'X-Requested-By: ambari' -X PUT -d '{"RequestInfo": {"context" :"Start MAPREDUCE2 via REST"}, "Body": {"ServiceInfo": {"state": "STARTED"}}}' http://localhost:8080/api/v1/clusters/hadoop/services/MAPREDUCE2
+@rebootcurl -u admin:admin -i -H 'X-Requested-By: ambari' -X PUT -d '{"RequestInfo": {"context" :"Start HIVE via REST"}, "Body": {"ServiceInfo": {"state": "STARTED"}}}' http://localhost:8080/api/v1/clusters/hadoop/services/HIVE
+@rebootcurl -u admin:admin -i -H 'X-Requested-By: ambari' -X PUT -d '{"RequestInfo": {"context" :"Start TEZ via REST"}, "Body": {"ServiceInfo": {"state": "STARTED"}}}' http://localhost:8080/api/v1/clusters/hadoop/services/TEZ
+@rebootcurl -u admin:admin -i -H 'X-Requested-By: ambari' -X PUT -d '{"RequestInfo": {"context" :"Start ZOOKEEPER via REST"}, "Body": {"ServiceInfo": {"state": "STARTED"}}}' http://localhost:8080/api/v1/clusters/hadoop/services/ZOOKEEPER
+@reboot curl -u admin:admin -i -H 'X-Requested-By: ambari' -X PUT -d '{"RequestInfo": {"context" :"Start SPARK via REST"}, "Body": {"ServiceInfo": {"state": "STARTED"}}}' http://localhost:8080/api/v1/clusters/hadoop/services/SPARK
+
+# Stop server after 00:00:00
+1 0 * * * sudo shutdown -h 0
+```
+
 __Go to https://IP:9083 or https://your.host.com:9083__  
 
 __Enjoy!__
