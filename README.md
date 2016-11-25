@@ -217,6 +217,8 @@ crontab -e
 ```sh
 # Run Jupyter on start up
 @reboot nohup sudo /usr/local/python-3.4/bin/python3 -m jupyterhub -f /home/agambo/jupyterhub_config.py &
+# Run Rstudio on start-up
+@reboot sudo rstudio-server start
 # Run some ambari service on start up
 @rebootcurl -u admin:admin -i -H 'X-Requested-By: ambari' -X PUT -d '{"RequestInfo": {"context" :"Start HDFS via REST"}, "Body": {"ServiceInfo": {"state": "STARTED"}}}' http://localhost:8080/api/v1/clusters/hadoop/services/HDFS 
 @rebootcurl -u admin:admin -i -H 'X-Requested-By: ambari' -X PUT -d '{"RequestInfo": {"context" :"Start YARN via REST"}, "Body": {"ServiceInfo": {"state": "STARTED"}}}' http://localhost:8080/api/v1/clusters/hadoop/services/YARN
